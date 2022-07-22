@@ -238,12 +238,13 @@ except KeyError:
 if RCLONE_CONFIG:
     LOGGER.warning("[ATTENTION] Found RCLONE_CONFIG Var, Better Put your rclone.conf in Root Directory of Your Forked Repo")
 if not os.path.exists("rclone.conf"):
-    LOGGER.warning("No rclone.conf found in root directory")
-if not os.path.exists("rclone_bak.conf"):  # Remake and BackUp rclone.conf file
-    with open("rclone_bak.conf", "w+", newline="\n", encoding="utf-8") as fole:
-        with open("rclone.conf", "r") as f:
-            fole.write(f.read())
-    LOGGER.info("[SUCCESS] rclone.conf BackUped to rclone_bak.conf!")
+    LOGGER.warning("No rclone.conf found in Root Directory")
+if os.path.exists("rclone.conf"):
+    if not os.path.exists("rclone_bak.conf"):  # Remake and BackUp rclone.conf file
+        with open("rclone_bak.conf", "w+", newline="\n", encoding="utf-8") as fole:
+            with open("rclone.conf", "r") as f:
+                fole.write(f.read())
+        LOGGER.info("[SUCCESS] rclone.conf BackUped to rclone_bak.conf!")
 
 # Pyrogram Client Intialization >>>>>>>>>>>
 app = Client("LeechBot", bot_token=TG_BOT_TOKEN, api_id=APP_ID, api_hash=API_HASH, workers=343)
