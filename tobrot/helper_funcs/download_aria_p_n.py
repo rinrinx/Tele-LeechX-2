@@ -54,7 +54,7 @@ async def aria_start():
     TRACKERS = check_output("curl -Ns https://raw.githubusercontent.com/XIU2/TrackersListCollection/master/all.txt https://ngosang.github.io/trackerslist/trackers_all_http.txt https://newtrackon.com/api/all https://raw.githubusercontent.com/hezhijie0327/Trackerslist/main/trackerslist_tracker.txt | awk '$0' | tr '\n\n' ','", shell=True).decode('utf-8').rstrip(',')
     aria2_daemon_start_cmd = ["extra-api", "--conf-path=/app/tobrot/aria2/aria2.conf", f"--rpc-listen-port={ARIA_TWO_STARTED_PORT}", f"--bt-stop-timeout={MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START}", f"--bt-tracker=[{TRACKERS}]"]
     #f"--dir={DOWNLOAD_LOCATION}", "--disk-cache=0", "--seed-ratio=0.01"
-    LOGGER.info(aria2_daemon_start_cmd)
+    LOGGER.info("[ARIA2C] Daemon Initiated ")
 
     process = await asyncio.create_subprocess_exec(
         *aria2_daemon_start_cmd,
@@ -364,8 +364,8 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
             # await check_progress_for_dl(aria2, gid, event, previous_message)
             return
         except FloodWait as e:
-            LOGGER.info(e)
-            time.sleep(e.x)
+            LOGGER.info(f"FloodWait : Sleeping {e.value}s")
+            time.sleep(e.value)
         except Exception as e:
             LOGGER.info(str(e))
             if "not found" in str(e) or "'file'" in str(e):

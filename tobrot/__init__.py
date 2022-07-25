@@ -177,6 +177,7 @@ TSEARCH_COMMAND = os.environ.get("TSEARCH_COMMAND", "tshelp")
 MEDIAINFO_CMD = os.environ.get("MEDIAINFO_CMD", "mediainfo")
 CAP_STYLE = os.environ.get("CAP_STYLE", "code")
 BOT_NO = os.environ.get("BOT_NO", "")
+USER_DTS = os.environ.get("USER_DTS", True)
 
 #Bot Command [Token Utils]  >>>>>>>>>>>
 UPTOBOX_TOKEN = os.environ.get("UPTOBOX_TOKEN", "")
@@ -196,6 +197,10 @@ STRING_SESSION = os.environ.get("STRING_SESSION", "")
 CUSTOM_CAPTION = os.environ.get("CUSTOM_CAPTION", "")
 MAX_LIST_ELM = os.environ.get("MAX_LIST_ELM", None)
 DEF_IMDB_TEMPLATE = os.environ.get("IMDB_TEMPLATE", "")
+
+#Telegraph Creds  >>>>>>>>>>>
+TGH_AUTHOR = os.environ.get("TGH_AUTHOR ", "Tele-LeechX")
+TGH_AUTHOR_URL = os.environ.get("TGH_AUTHOR_URL", "https://t.me/FXTorrentz")
 
 #Bot Command [Bot PM & Log Channel]  >>>>>>>>>>>
 LEECH_LOG = os.environ.get("LEECH_LOG", "")

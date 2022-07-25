@@ -23,7 +23,7 @@ async def yt_playlist_downg(message, i_m_sefg, client, G_DRIVE):
         url = message.reply_to_message.text
     else:
         url = message.text.split()[1]
-    usr = message.message_id
+    usr = message.id
     messa_ge = i_m_sefg.reply_to_message
     fol_der = f"{usr}youtube"
     try:

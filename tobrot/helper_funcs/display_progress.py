@@ -106,8 +106,8 @@ class Progress:
                         caption="{}\n {}".format(ud_type, tmp)
                     )
             except FloodWait as fd:
-                logger.warning(f"{fd}")
-                time.sleep(fd.x)
+                LOGGER.warning(f"FloodWait : Sleeping {fd.value}s")
+                time.sleep(fd.value)
             except Exception as ou:
                 logger.info(ou)
 

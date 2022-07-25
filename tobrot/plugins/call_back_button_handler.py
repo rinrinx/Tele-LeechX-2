@@ -15,7 +15,7 @@ import shutil
 from pyrogram import enums
 from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton 
 from tobrot import *
-from tobrot import AUTH_CHANNEL #MAX_MESSAGE_LENGTH, LOGGER, gDict
+from tobrot.helper_funcs.bot_commands import BotCommands
 from tobrot.helper_funcs.admin_check import AdminCheck
 from tobrot.helper_funcs.download_aria_p_n import aria_start
 from tobrot.helper_funcs.youtube_dl_button import youtube_dl_call_back
@@ -106,8 +106,9 @@ async def button(bot, update: CallbackQuery):
                 "rclone.conf",
                 "rclone_bak.conf",
                 ".gitignore",
-                "_config.yml",
-                "COPYING",
+                "genStringSession.py",
+                "update.py",
+                "LICENSE",
                 "Dockerfile",
                 "extract",
                 "Procfile",
@@ -120,7 +121,7 @@ async def button(bot, update: CallbackQuery):
                 "start.sh",
                 "tobrot",
                 "gautam",
-                "FXLogs.txt",
+                f"{UPDATES_CHANNEL}Logs.txt",
                 "vendor",
                 "LeechBot.session",
                 "LeechBot.session-journal",
@@ -141,7 +142,12 @@ async def button(bot, update: CallbackQuery):
             else:
                 await update.message.edit_text("<i>⛔ Nothing to clear ⛔ \nAs Per I Get to Know !! </i>")
         else:
-            await update.message.edit_text("<i>I Got Info, \nYou Are Not Allowed to Do This 🤭</i>")
+            await bot.answer_callback_query(
+                callback_query_id=update.id,
+                text="⚠️ Opps ⚠️ \n I Got a False Visitor 🚸 !! \n\n 📛 Stay At Your Limits !!📛",
+                show_alert=True,
+                cache_time=0,
+            )    
     elif cb_data == "fuckoff":
         await bot.answer_callback_query(
             update.id, text="Going to Cancel . . . 🔃", show_alert=False
@@ -151,11 +157,11 @@ async def button(bot, update: CallbackQuery):
         button_markup = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton(f"/{LEECH_COMMAND}", callback_data = "leech"),
-                    InlineKeyboardButton(f"/{LEECH_UNZIP_COMMAND}", callback_data = "extract")
+                    InlineKeyboardButton(f"/{BotCommands.LeechCommand}", callback_data = "leech"),
+                    InlineKeyboardButton(f"/{BotCommands.ExtractCommand}", callback_data = "extract")
                 ],
                 [
-                    InlineKeyboardButton(f"/{LEECH_ZIP_COMMAND}", callback_data = "archive"),
+                    InlineKeyboardButton(f"/{BotCommands.ArchiveCommand}", callback_data = "archive"),
                     InlineKeyboardButton(f"/{TOGGLE_DOC}", callback_data = "toggledoc")
                 ],
                 [

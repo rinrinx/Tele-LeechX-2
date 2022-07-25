@@ -51,8 +51,8 @@ async def youtube_dl_call_back(bot, update):
         await bot.delete_messages(
             chat_id=update.message.chat.id,
             message_ids=[
-                update.message.message_id,
-                update.message.reply_to_message.message_id,
+                update.message.id,
+                update.message.reply_to_message.id,
             ],
             revoke=True,
         )
@@ -66,8 +66,8 @@ async def youtube_dl_call_back(bot, update):
         await bot.delete_messages(
             chat_id=update.message.chat.id,
             message_ids=[
-                update.message.message_id,
-                update.message.reply_to_message.message_id,
+                update.message.id,
+                update.message.reply_to_message.id,
             ],
             revoke=True,
         )

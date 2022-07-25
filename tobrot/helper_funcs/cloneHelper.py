@@ -23,7 +23,8 @@ from tobrot import (
     LOGGER,
     TG_MAX_FILE_SIZE,
     UPLOAD_AS_DOC,
-    VIEW_LINK
+    VIEW_LINK,
+    USER_DTS
 )
 from tobrot.plugins import is_appdrive_link, is_gdtot_link
 from tobrot.helper_funcs.direct_link_generator import gdtot, appdrive_dl, url_link_generate
@@ -61,32 +62,43 @@ class CloneHelper:
         LOGGER.info(txt)
         def_text = f"__⚡️Clone Initiated⚡️__\n\n👤 **User** : {self.u_men} ( #ID{self.u_id} )\n"
         if is_gdtot_link(mess[0]):
-            process = await mes.reply_text(f"{def_text}**📎 GDToT Link** : `{mess[0]}`\n\n `Generating . . .`")
+            if USER_DTS:
+                process = await mes.reply_text(f"{def_text}**📎 GDToT Link** : `{mess[0]}`\n\n `Generating . . .`")
             info_parsed = gdtot(mess[0])
             message = info_parsed['gdrive_link']
-            await process.edit_text(f"{def_text}**📎GDToT Link** : `{mess[0]}`\n**☁️ GDrive Link** : `{message}`")
+            if USER_DTS:
+                await process.edit_text(f"{def_text}**📎GDToT Link** : `{mess[0]}`\n**☁️ GDrive Link** : `{message}`")
         elif is_appdrive_link(mess[0]):
-            process = await mes.reply_text(f"{def_text}**📎 AppDrive Link** : `{mess[0]}`\n\n `Generating . . .`")
+            if USER_DTS:
+                process = await mes.reply_text(f"{def_text}**📎 AppDrive Link** : `{mess[0]}`\n\n `Generating . . .`")
             info_parsed = appdrive_dl(mess[0], is_direct=False)
             message = info_parsed['gdrive_link']
-            await process.edit_text(f"{def_text}**📎 AppDrive Link** : `{mess[0]}`\n**☁️ GDrive Link** : `{message}`")
+            if USER_DTS:
+                await process.edit_text(f"{def_text}**📎 AppDrive Link** : `{mess[0]}`\n**☁️ GDrive Link** : `{message}`")
         elif "kolop.icu" in mess[0]:
-            process = await mes.reply_text(f"{def_text}**📎 Kolop Link** : `{mess[0]}`\n\n `Generating . . .`")
+            if USER_DTS:
+                process = await mes.reply_text(f"{def_text}**📎 Kolop Link** : `{mess[0]}`\n\n `Generating . . .`")
             info_parsed = url_link_generate(mess[0])
             message = info_parsed['gdrive_url']
-            await process.edit_text(f"{def_text}**📎 Kolop Link** : `{mess[0]}`\n**☁️ GDrive Link** : `{message}`")
+            if USER_DTS:
+                await process.edit_text(f"{def_text}**📎 Kolop Link** : `{mess[0]}`\n**☁️ GDrive Link** : `{message}`")
         elif "hubdrive.cc" in mess[0]:
-            process = await mes.reply_text(f"{def_text}**📎 HubDrive Link** : `{mess[0]}`\n\n `Generating . . .`")
+            if USER_DTS:
+                process = await mes.reply_text(f"{def_text}**📎 HubDrive Link** : `{mess[0]}`\n\n `Generating . . .`")
             info_parsed = url_link_generate(mess[0])
             message = info_parsed['gdrive_url']
-            await process.edit_text(f"{def_text}**📎 HubDrive Link** : `{mess[0]}`\n**☁️ GDrive Link** : `{message}`")
+            if USER_DTS:
+                await process.edit_text(f"{def_text}**📎 HubDrive Link** : `{mess[0]}`\n**☁️ GDrive Link** : `{message}`")
         elif "drivelinks.in" in mess[0]:
-            process = await mes.reply_text(f"{def_text}**📎 DriveLinks Link** : `{mess[0]}`\n\n `Generating . . .`")
+            if USER_DTS:
+                process = await mes.reply_text(f"{def_text}**📎 DriveLinks Link** : `{mess[0]}`\n\n `Generating . . .`")
             info_parsed = appdrive_dl(mess[0], is_direct=False)
             message = info_parsed['gdrive_link']
-            await process.edit_text(f"{def_text}**📎 DriveLinks Link** : `{mess[0]}`\n**☁️ GDrive Link** : `{message}`")
+            if USER_DTS:
+                await process.edit_text(f"{def_text}**📎 DriveLinks Link** : `{mess[0]}`\n**☁️ GDrive Link** : `{message}`")
         elif "drive.google.com" in mess[0]:
-            await mes.reply_text(f"{def_text}**☁️ GDrive Link** : `{mess[0]}`")
+            if USER_DTS:
+                await mes.reply_text(f"{def_text}**☁️ GDrive Link** : `{mess[0]}`")
             message = mess[0]
         else:
             await mes.reply_text(f"**Unsupported Link** : `{mess[0]}`")
@@ -253,8 +265,7 @@ class CloneHelper:
                 self.filee = self.name
         except IndexError:
             await asyncio.sleep(3)
-            await self.lsg.delete()
-            await gcl()
+            await self.lsg.edit_text(f"‼️ **ERROR** ‼️\n\nTry Any Other URL or Try Again")
         except Exception as err:
             LOGGER.info(err)
             await self.lsg.edit_text(f"‼️ **ERROR** ‼️\n\n`{err}`")

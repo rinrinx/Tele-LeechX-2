@@ -149,7 +149,7 @@ async def status_message_f(
                     LOGGER.info(ep)
                     await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
                 except FloodWait as e:
-                    LOGGER.info(e)
+                    LOGGER.info(f"FloodWait : Sleeping {e.value}s")
                     time.sleep(e.value)
                 await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
                 prev_mess = msg

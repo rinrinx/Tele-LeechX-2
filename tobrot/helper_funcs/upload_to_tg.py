@@ -856,6 +856,7 @@ async def upload_single_file(
                     if sent_message is not None:
                         await message_for_progress_display.delete()
                 except FloodWait as gf:
+                    LOGGER.info(f"FloodWait : Sleeping {gf.value}s")
                     time.sleep(gf.value)
                 except Exception as rr:
                     LOGGER.warning(str(rr))

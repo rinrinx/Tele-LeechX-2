@@ -18,7 +18,7 @@ from html_telegraph_poster import TelegraphPoster
 from pyrogram import filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from tobrot import app, bot, UPDATES_CHANNEL 
+from tobrot import app, bot, UPDATES_CHANNEL, TGH_AUTHOR, TGH_AUTHOR_URL
 from tobrot.plugins import runcmd 
 from tobrot.helper_funcs.display_progress import humanbytes
 from tobrot.helper_funcs.bot_commands import BotCommands
@@ -27,12 +27,11 @@ from tobrot.helper_funcs.bot_commands import BotCommands
 def post_to_telegraph(a_title: str, content: str) -> str:
     """ Create a Telegram Post using HTML Content """
     post_client = TelegraphPoster(use_api=True)
-    auth_name = "FuZionX-Leech"
-    post_client.create_api_token(auth_name)
+    post_client.create_api_token(TGH_AUTHOR)
     post_page = post_client.post(
         title=a_title,
-        author=auth_name,
-        author_url="https://t.me/FXTorrentz",
+        author=TGH_AUTHOR,
+        author_url=TGH_AUTHOR_URL,
         text=content,
     )
     return post_page["url"]
@@ -94,7 +93,7 @@ async def mediainfo(client, message):
 
     if TG_MEDIA:
         media_type = str(type(x_media)).split("'")[1]
-        file_path = safe_filename(await reply.download())
+        file_path = safe_filename(await reply_to.download())
         output_ = await runcmd(f'mediainfo "{file_path}"')
     elif DIRECT_LINK:
         output_ = await runcmd(f'mediainfo "{link}" --Ssl_IgnoreSecurity')
