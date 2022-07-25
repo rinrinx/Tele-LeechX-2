@@ -14,7 +14,7 @@ import re
 import subprocess
 
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from tobrot import DESTINATION_FOLDER, EDIT_SLEEP_TIME_OUT, LOGGER, RCLONE_CONFIG, UPDATES_CHANNEL 
+from tobrot import DESTINATION_FOLDER, EDIT_SLEEP_TIME_OUT, LOGGER, UPDATES_CHANNEL 
 
 
 async def check_size_g(client, message):
@@ -22,9 +22,6 @@ async def check_size_g(client, message):
     u_men = message.from_user.mention
     # await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
     del_it = await message.reply_text("`💾 Checking Cloud Size... Please Wait !!!`")
-    if not os.path.exists("rclone.conf"):
-        with open("rclone.conf", "w+", newline="\n", encoding="utf-8") as fole:
-            fole.write(f"{RCLONE_CONFIG}")
     if os.path.exists("rclone.conf"):
         with open("rclone.conf", "r+") as file:
             con = file.read()

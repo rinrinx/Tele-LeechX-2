@@ -1,22 +1,4 @@
-from tobrot import (
-    LEECH_COMMAND,
-    LEECH_UNZIP_COMMAND,
-    LEECH_ZIP_COMMAND,
-    YTDL_COMMAND, 
-    STATUS_COMMAND,
-    SAVE_THUMBNAIL,
-    CLEAR_THUMBNAIL,
-    LOG_COMMAND,
-    RENAME_COMMAND,
-    TOGGLE_VID,
-    TOGGLE_DOC,
-    HELP_COMMAND,
-    SPEEDTEST,
-    TSEARCH_COMMAND,
-    PYTDL_COMMAND,
-    MEDIAINFO_CMD,
-    BOT_NO
-    )
+from tobrot import *
 
 class _BotCommands:
     def __init__(self):
@@ -36,5 +18,8 @@ class _BotCommands:
         self.LogCommand = f'{LOG_COMMAND}{BOT_NO}'
         self.MediaInfoCommand = f'{MEDIAINFO_CMD}{BOT_NO}'
         self.TsHelpCommand = f'{TSEARCH_COMMAND}{BOT_NO}'
+        self.GCloneCommand = f'{CLONE_COMMAND_G}{BOT_NO}'
+        self.StatsCommand = f'{STATS_COMMAND}{BOT_NO}'
+        self.CancelCommand = f'{CANCEL_COMMAND_G}{BOT_NO}'
 
 BotCommands = _BotCommands()

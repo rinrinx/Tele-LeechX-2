@@ -316,13 +316,13 @@ async def upload_log_file(client, message):
         if len(logFileLines) > 25:
             toDisplay = 25
         else:
-            toDisplay = len(lines)
+            toDisplay = len(logFileLines)
         startLine = f'Last {toDisplay} Lines : [On Display Telegram LOG]\n\n---------------- START LOG -----------------\n\n'
         endLine = '\n---------------- END LOG -----------------'
         try:
             Loglines = ''
             for l in range (toDisplay, 0, -1):
-                Loglines += logFileLines[-l]+'\n\n'
+                Loglines += logFileLines[-l]+'\n\n' ## Max TG send Limit Fix
             Loglines = Loglines.replace('"', '')
             textLog = startLine+Loglines+endLine
             await message.reply_text(textLog,

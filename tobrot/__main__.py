@@ -66,7 +66,8 @@ from tobrot import (
     SERVER_HOST,
     STRING_SESSION,
     SET_BOT_COMMANDS,
-    RDM_QUOTE
+    RDM_QUOTE,
+    STATS_COMMAND
 )
 if STRING_SESSION:
     from tobrot import userBot
@@ -116,8 +117,8 @@ if SET_BOT_COMMANDS:
         (f'{BotCommands.SpeedCommand}','📡 Get Current Server Speed of Your Bot'),
         (f'{BotCommands.YtdlCommand}','🧲 [Reply] YT-DL Links for Uploading...'),
         (f'{BotCommands.PytdlCommand}','🧧 [Reply] YT-DL Playlists Links for Uploading...'),
-        (f'gclone','♻️ [G-Drive] Clone Different Supported Sites !!'),
-        ('stats','📊 Show Bot Internal Statistics'),
+        (f'{BotCommands.GCloneCommand}','♻️ [G-Drive] Clone Different Supported Sites !!'),
+        (f'{BotCommands.StatsCommand}','📊 Show Bot Internal Statistics'),
         (f'{BotCommands.MediaInfoCommand}','🆔️ [Reply] Get Telegram Files Media Info'),
         (f'setpre','🔠 <Text> Save Custom Prefix for Uploads'),
         (f'setcap','🔣 <Text> Save Custom Caption for Uploads'),
@@ -253,9 +254,9 @@ if __name__ == "__main__":
         incoming_message_f,
         filters=filters.command(
             [
-                LEECH_COMMAND, f"{LEECH_COMMAND}@{bot.username}",
-                LEECH_ZIP_COMMAND, f"{LEECH_ZIP_COMMAND}@{bot.username}",
-                LEECH_UNZIP_COMMAND, f"{LEECH_UNZIP_COMMAND}@{bot.username}",
+                BotCommands.LeechCommand, f"{BotCommands.LeechCommand}@{bot.username}",
+                BotCommands.ArchiveCommand, f"{BotCommands.ArchiveCommand}@{bot.username}",
+                BotCommands.ExtractCommand, f"{BotCommands.ExtractCommand}@{bot.username}",
                 GLEECH_COMMAND,
                 GLEECH_UNZIP_COMMAND,
                 GLEECH_ZIP_COMMAND,
@@ -280,7 +281,7 @@ if __name__ == "__main__":
     ##############################################################################
     incoming_clone_handler = MessageHandler(
         g_clonee,
-        filters=filters.command([f"{CLONE_COMMAND_G}", f"{CLONE_COMMAND_G}@{bot.username}"])
+        filters=filters.command([f"{BotCommands.GCloneCommand}", f"{BotCommands.GCloneCommand}@{bot.username}"])
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(incoming_clone_handler)
@@ -300,47 +301,47 @@ if __name__ == "__main__":
     ##############################################################################
     incoming_youtube_dl_handler = MessageHandler(
         incoming_youtube_dl_f,
-        filters=filters.command([f"{YTDL_COMMAND}", f"{YTDL_COMMAND}@{bot.username}", f"{GYTDL_COMMAND}", f"{GYTDL_COMMAND}@{bot.username}"])
+        filters=filters.command([f"{BotCommands.YtdlCommand}", f"{BotCommands.YtdlCommand}@{bot.username}", f"{GYTDL_COMMAND}", f"{GYTDL_COMMAND}@{bot.username}"])
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(incoming_youtube_dl_handler)
     ##############################################################################
     incoming_youtube_playlist_dl_handler = MessageHandler(
         g_yt_playlist,
-        filters=filters.command([f"{PYTDL_COMMAND}", f"{PYTDL_COMMAND}@{bot.username}", GPYTDL_COMMAND])
+        filters=filters.command([f"{BotCommands.PytdlCommand}", f"{BotCommands.PytdlCommand}@{bot.username}", GPYTDL_COMMAND])
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(incoming_youtube_playlist_dl_handler)
     ##############################################################################
     status_message_handler = MessageHandler(
         status_message_f,
-        filters=filters.command([f"{STATUS_COMMAND}", f"{STATUS_COMMAND}@{bot.username}"])
+        filters=filters.command([f"{BotCommands.StatusCommand}", f"{BotCommands.StatusCommand}@{bot.username}"])
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(status_message_handler)
     ##############################################################################
     cancel_message_handler = MessageHandler(
         cancel_message_f,
-        filters=filters.command([f"{CANCEL_COMMAND_G}", f"{CANCEL_COMMAND_G}@{bot.username}"])
+        filters=filters.command([f"{BotCommands.CancelCommand}", f"{BotCommands.CancelCommand}@{bot.username}"])
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(cancel_message_handler)
     ##############################################################################
     exec_message_handler = MessageHandler(
         exec_message_f,
-        filters=filters.command(["exec", "gdtot", "gdtot@{bot.username}"]) & filters.chat(chats=AUTH_CHANNEL),
+        filters=filters.command(["exec", "exec@{bot.username}"]) & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(exec_message_handler)
     ##############################################################################
     eval_message_handler = MessageHandler(
         eval_message_f,
-        filters=filters.command(["eval"]) & filters.chat(chats=AUTH_CHANNEL),
+        filters=filters.command(["eval", "exec@{bot.username}"]) & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(eval_message_handler)
     ##############################################################################
     rename_message_handler = MessageHandler(
         rename_tg_file,
-        filters=filters.command([f"{RENAME_COMMAND}", f"{RENAME_COMMAND}@{bot.username}"]) & filters.chat(chats=AUTH_CHANNEL),
+        filters=filters.command([f"{BotCommands.RenameCommand}", f"{BotCommands.RenameCommand}@{bot.username}"]) & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(rename_message_handler)
     ##############################################################################
@@ -353,13 +354,13 @@ if __name__ == "__main__":
     ##############################################################################
     upload_log_handler = MessageHandler(
         upload_log_file,
-        filters=filters.command([f"{LOG_COMMAND}", f"{LOG_COMMAND}@{bot.username}"]) & filters.chat(chats=AUTH_CHANNEL),
+        filters=filters.command([f"{BotCommands.LogCommand}", f"{BotCommands.LogCommand}@{bot.username}"]) & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(upload_log_handler)
     ##############################################################################
     help_text_handler = MessageHandler(
         help_message_f,
-        filters=filters.command([f"{HELP_COMMAND}", f"{HELP_COMMAND}@{bot.username}"]) & filters.chat(chats=AUTH_CHANNEL),
+        filters=filters.command([f"{BotCommands.HelpCommand}", f"{BotCommands.HelpCommand}@{bot.username}"]) & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(help_text_handler)
     ##############################################################################
@@ -368,54 +369,54 @@ if __name__ == "__main__":
     ##############################################################################
     save_thumb_nail_handler = MessageHandler(
         save_thumb_nail,
-        filters=filters.command([f"{SAVE_THUMBNAIL}", f"{SAVE_THUMBNAIL}@{bot.username}"])
+        filters=filters.command([f"{BotCommands.SaveCommand}", f"{BotCommands.SaveCommand}@{bot.username}"])
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(save_thumb_nail_handler)
     ##############################################################################
     clear_thumb_nail_handler = MessageHandler(
         clear_thumb_nail,
-        filters=filters.command([f"{CLEAR_THUMBNAIL}", f"{CLEAR_THUMBNAIL}@{bot.username}"])
+        filters=filters.command([f"{BotCommands.ClearCommand}", f"{BotCommands.ClearCommand}@{bot.username}"])
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(clear_thumb_nail_handler)
     ##############################################################################
     rclone_config_handler = MessageHandler(
-        rclone_command_f, filters=filters.command([f"{RCLONE_COMMAND}"])
+        rclone_command_f, filters=filters.command([f"{RCLONE_COMMAND}", f"{RCLONE_COMMAND}@{bot.username}"])
     )
     app.add_handler(rclone_config_handler)
     ##############################################################################
     upload_as_doc_handler = MessageHandler(
         upload_as_doc,
-        filters=filters.command([f"{TOGGLE_DOC}", f"{TOGGLE_DOC}@{bot.username}"])
+        filters=filters.command([f"{BotCommands.ToggleDocCommand}", f"{BotCommands.ToggleDocCommand}@{bot.username}"])
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(upload_as_doc_handler)
     ##############################################################################
     upload_as_video_handler = MessageHandler(
         upload_as_video,
-        filters=filters.command([f"{TOGGLE_VID}", f"{TOGGLE_VID}@{bot.username}"])
+        filters=filters.command([f"{BotCommands.ToggleVidCommand}", f"{BotCommands.ToggleVidCommand}@{bot.username}"])
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(upload_as_video_handler)
     ##############################################################################
     get_speed_handler = MessageHandler(
         get_speed,
-        filters=filters.command([f"{SPEEDTEST}", f"{SPEEDTEST}@{bot.username}"])
+        filters=filters.command([f"{BotCommands.SpeedCommand}", f"{BotCommands.SpeedCommand}@{bot.username}"])
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(get_speed_handler)
     ##############################################################################
     searchhelp_handler = MessageHandler(
         searchhelp,
-        filters=filters.command([f"{TSEARCH_COMMAND}", f"{TSEARCH_COMMAND}@{bot.username}"])
+        filters=filters.command([f"{BotCommands.TsHelpCommand}", f"{BotCommands.TsHelpCommand}@{bot.username}"])
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(searchhelp_handler)
     ##############################################################################
     mediainfo_handler = MessageHandler(
         mediainfo,
-        filters=filters.command([f"{MEDIAINFO_CMD}", f"{MEDIAINFO_CMD}@{bot.username}"])
+        filters=filters.command([f"{BotCommands.MediaInfoCommand}", f"{BotCommands.MediaInfoCommand}@{bot.username}"])
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(mediainfo_handler)
@@ -429,7 +430,7 @@ if __name__ == "__main__":
     ##############################################################################
     stats_handler = MessageHandler(
         stats,
-        filters=filters.command(["stats", f"stats@{bot.username}"])
+        filters=filters.command([f"{BotCommands.StatsCommand}", f"{BotCommands.StatsCommand}@{bot.username}"])
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(stats_handler)

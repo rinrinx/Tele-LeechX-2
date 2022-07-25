@@ -21,7 +21,6 @@ from tobrot import (
     EDIT_SLEEP_TIME_OUT,
     INDEX_LINK,
     LOGGER,
-    RCLONE_CONFIG,
     TG_MAX_FILE_SIZE,
     UPLOAD_AS_DOC,
     VIEW_LINK
@@ -45,9 +44,6 @@ class CloneHelper:
         self.dname = ""
 
     def config(self):
-        if not os.path.exists("rclone.conf"):
-            with open("rclone.conf", "w+", newline="\n", encoding="utf-8") as fole:
-                fole.write(f"{RCLONE_CONFIG}")
         if os.path.exists("rclone.conf"):
             with open("rclone.conf", "r+") as file:
                 con = file.read()

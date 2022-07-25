@@ -38,11 +38,13 @@ try:
             with open('config.env', 'wb+') as f:
                 f.write(res.content)
         else:
-            LOGGER.error(f"Failed to download config.env {res.status_code}")
+            LOGGER.error(f"Failed to download config.env : {res.status_code}")
     except Exception as e:
         LOGGER.error(f"CONFIG_FILE_URL: {e}")
 except:
     pass
+
+dotenv.load_dotenv("config.env", override=True)
 
 UPDATES_CHANNEL = os.environ.get("UPDATES_CHANNEL", "")
 LOG_FILE_NAME = f"{UPDATES_CHANNEL}Logs.txt"
@@ -53,9 +55,9 @@ if os.path.exists(LOG_FILE_NAME):
 
 # Logging Requirements >>>>>>>>>>>
 logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s - %(levelname)s - %(message)s [%(filename)s:%(lineno)d]",
-    datefmt="%d-%b-%y %H:%M:%S",
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s [%(filename)s:%(lineno)d]",
+    datefmt="%d-%b-%y %I:%M:%S %p",
     handlers=[
         RotatingFileHandler(
             LOG_FILE_NAME, maxBytes=50000000, backupCount=10
@@ -71,8 +73,6 @@ LOGGER = logging.getLogger(__name__)
 
 user_specific_config=dict()
 __version__ = "2.6.0"
-
-dotenv.load_dotenv("config.env")
 
 # Compulsory Variables >>>>>>>>
 for imp in ["TG_BOT_TOKEN", "APP_ID", "API_HASH", "OWNER_ID", "AUTH_CHANNEL"]:
@@ -146,7 +146,6 @@ PYTDL_COMMAND = os.environ.get("PYTDL_COMMAND", "pytdl")
 GPYTDL_COMMAND = os.environ.get("GPYTDL_COMMAND", "gpytdl")
 
 #Bot Command [RClone]  >>>>>>>>>>>
-RCLONE_CONFIG = os.environ.get("RCLONE_CONFIG", "")
 DESTINATION_FOLDER = os.environ.get("DESTINATION_FOLDER", "Tele-LeechX")
 INDEX_LINK = os.environ.get("INDEX_LINK", "")
 VIEW_LINK = os.environ.get("VIEW_LINK", True)
@@ -162,6 +161,7 @@ SAVE_THUMBNAIL = os.environ.get("SAVE_THUMBNAIL", "savethumb")
 CLEAR_THUMBNAIL = os.environ.get("CLEAR_THUMBNAIL", "clearthumb")
 UPLOAD_AS_DOC = os.environ.get("UPLOAD_AS_DOC", "False")
 LOG_COMMAND = os.environ.get("LOG_COMMAND", "log")
+STATS_COMMAND = os.environ.get("STATS_COMMAND", "stats")
 
 #Bot Command [Custom Bot Cmd Name]  >>>>>>>>>>>
 SET_BOT_COMMANDS = os.environ.get("SET_BOT_COMMANDS", True)
@@ -176,7 +176,7 @@ SPEEDTEST = os.environ.get("SPEEDTEST", "speedtest")
 TSEARCH_COMMAND = os.environ.get("TSEARCH_COMMAND", "tshelp")
 MEDIAINFO_CMD = os.environ.get("MEDIAINFO_CMD", "mediainfo")
 CAP_STYLE = os.environ.get("CAP_STYLE", "code")
-BOT_NO = os.environ.get("BOT_NO", "") #Dont Use Now Bug
+BOT_NO = os.environ.get("BOT_NO", "")
 
 #Bot Command [Token Utils]  >>>>>>>>>>>
 UPTOBOX_TOKEN = os.environ.get("UPTOBOX_TOKEN", "")
@@ -184,7 +184,6 @@ EMAIL = os.environ.get("EMAIL", "")
 PWSSD = os.environ.get("PWSSD", "")
 GDRIVE_FOLDER_ID = os.environ.get("GDRIVE_FOLDER_ID", "")
 CRYPT = os.environ.get("CRYPT", "")
-#PHPSESSID = os.environ.get("PHPSESSID", "")
 HUB_CRYPT = os.environ.get("HUB_CRYPT", "")
 DRIVEFIRE_CRYPT = os.environ.get("DRIVEFIRE_CRYPT", "")
 KATDRIVE_CRYPT = os.environ.get("KATDRIVE_CRYPT", "")
@@ -231,14 +230,14 @@ try:
     if len(RCLONE_CONF_URL) == 0:                                        
         RCLONE_CONF_URL = None                                           
     else:                                                                
-        urllib.request.urlretrieve(RCLONE_CONF_URL, '/app/rclone.conf')  
+        urllib.request.urlretrieve(RCLONE_CONF_URL, '/app/rclone.conf')
+        LOGGER.info("[SUCCESS] RClone Setup Complete via URL")
 except KeyError:                                                       
     RCLONE_CONF_URL = None                                              
 
-if RCLONE_CONFIG:
-    LOGGER.warning("[ATTENTION] Found RCLONE_CONFIG Var, Better Put your rclone.conf in Root Directory of Your Forked Repo")
+# Rclone Config via Root Directory & BackUp >>>>>>>>
 if not os.path.exists("rclone.conf"):
-    LOGGER.warning("No rclone.conf found in Root Directory")
+    LOGGER.warning("[NOT FOUND] rclone.conf not found in Root Directory .")
 if os.path.exists("rclone.conf"):
     if not os.path.exists("rclone_bak.conf"):  # Remake and BackUp rclone.conf file
         with open("rclone_bak.conf", "w+", newline="\n", encoding="utf-8") as fole:
@@ -260,7 +259,7 @@ if len(STRING_SESSION) > 10:
             isUserPremium = False
             LOGGER.info("[SUCCESS] Initiated UserBot : Non-Premium Mode. Add Premium Account StringSession to Use 4GB Upload. ")
     else: LOGGER.warning("[FAILED] Userbot Not Started. ReCheck Your STRING_SESSION, and Other Vars")
-else: LOGGER.info("ReGenerate Your STRING_SESSION Var.")
+else: LOGGER.info("Provide or ReGenerate Your STRING_SESSION Var")
 
 updater = tg.Updater(token=TG_BOT_TOKEN)
 bot = updater.bot

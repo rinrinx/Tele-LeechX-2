@@ -111,7 +111,7 @@ async def split_large_files(input_file):
 
 async def cult_small_video(video_file, out_put_file_name, start_time, end_time):
     file_genertor_command = [
-        "ffmpeg",
+        "new-api",
         "-hide_banner",
         "-i",
         video_file,

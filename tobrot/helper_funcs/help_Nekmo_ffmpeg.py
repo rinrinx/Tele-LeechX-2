@@ -25,7 +25,7 @@ async def take_screen_shot(video_file, output_directory, ttl):
     VIDEO_SUFFIXES = ("MKV", "MP4", "MOV", "WMV", "3GP", "MPG", "WEBM", "AVI", "FLV", "M4V", "GIF")
     if video_file.upper().endswith(VIDEO_SUFFIXES):
         file_genertor_command = [
-            "ffmpeg",
+            "new-api",
             "-ss",
             str(ttl),
             "-i",

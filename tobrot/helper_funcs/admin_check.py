@@ -7,6 +7,7 @@
 # This is Part of < https://github.com/5MysterySD/Tele-LeechX >
 # All Right Reserved
 
+from tobrot import AUTH_CHANNEL
 from pyrogram import enums
 
 async def AdminCheck(client, chat_id, user_id):
